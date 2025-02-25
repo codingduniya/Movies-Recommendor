@@ -128,4 +128,4 @@ def recommend():
     return jsonify(top_movies.to_dict(orient='records'))  
 
 if __name__ == "__main__":
-    app.run(debug=True, port=3000)
+    app.run(debug=True)
