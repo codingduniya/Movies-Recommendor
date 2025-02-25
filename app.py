@@ -24,11 +24,11 @@ df['vector'] = df['vector'].apply(lambda x: np.fromstring(x[1:-1], sep=' '))
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
-client = MongoClient(os.getenv('MONGO_URI'))
+client = MongoClient(os.getenv('MONGO_URI'),tls=True)
 db = client['MovieDB']
 movies_collection = db['Movies']
 #connecting the cloud server
-client2 = MongoClient(os.getenv('MONGO_URI'))
+client2 = MongoClient(os.getenv('MONGO_URI'),tls=True)
 db2 = client2['UserDatabase']
 collection = db2['Users']
 
