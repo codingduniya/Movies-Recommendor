@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 # Load model and dataset
 model = pickle.load(open('model.pkl', 'rb'))
-df = pd.read_csv('E:\Movies-Recommendor\cleaned.csv')
+df = pd.read_csv('cleaned.csv')
 
 # Convert vector column from string to NumPy arrays
 df['vector'] = df['vector'].apply(lambda x: np.fromstring(x[1:-1], sep=' '))
