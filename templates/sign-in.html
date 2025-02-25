@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in page</title>
+    <link rel="icon" type="image/x-icon" href="static/images/video-camera.png" title="https://www.flaticon.com/free-icons/video-camera Video camera icons created by smashingstocks - Flaticon">
+    <style>
+        body{
+      background-image: url("static/images/backgroundimage.png"); /* Ensure this path is correct */
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size :cover;
+    }
+    </style>
+</head>
+
+<body style="background-color: rgb(21, 21, 130);">
+    {% if message %}
+    <script>
+        alert("{{message}}")
+    </script>
+    {% endif %}
+
+    {% if message %}
+    <script>
+        alert("{{message1}}")
+    </script>
+    {% endif %}
+
+
+    <div
+        style="margin-left: 35%; border: 1px solid rgb(66, 68, 69); max-width: 30%; max-height: 60%; margin-top: 1%; background-color: aliceblue; box-shadow: 10px 10px rgb(238, 236, 234); border-radius: 5px;">
+        <h1 style="margin-left: 4%; margin-top: 5%;">Create account</h1>
+        <form action="/signup" method="POST">
+            <label for="uname" style="border-radius: 5px; width: 90%; margin: 4%; margin-top: 2%;"><b>Name</b></label>
+            <br>
+            <input id="uname" type="text" name="username" placeholder="Enter user name "
+                style="margin-left: 4%; border-radius: 5px; width: 90%;padding: 5px;" required><br><br>
+            <label for="mob" style="border-radius: 5px;padding: 5px; width: 90%;margin: 4%;"><b>Mobile
+                    Number</b></label><br>
+            <input type="tel" id="mob" name="mobnumber"
+                style="border-radius: 5px; width: 90%; margin-left: 4%;padding: 5px;"
+                placeholder="Enter a mobile number" pattern="[0-9]{10}"><br><br>
+            <label for="em" style=" padding: 5px;border-radius: 5px; width: 90%; margin: 4%;"><b>Email
+                    Id</b></label><br>
+            <input type="email" id="em" style=" padding: 5px;border-radius: 5px; width: 90%; margin-left: 4%;"
+                name="usermail" placeholder="Enter valid email id" maxlength="30"><br><br>
+            <label for="pass"
+                style=" padding: 5px;border-radius: 5px; width: 90%;margin: 4%;"><b>Password</b></label><br>
+            <input type="password" style="padding: 5px;border-radius: 5px; width: 90%;margin-left: 4%;" id="pass"
+                name="userpassword" placeholder="Password must be 8 character" maxlength="8"><br><br>
+            <label for="pass2" style="padding: 5px;border-radius: 5px; width: 90%;margin: 4%;"><b>Re-enter
+                    Password</b></label><br>
+            <input type="password" style="padding: 5px; border-radius: 5px; width: 90%;margin-left: 4%;" id="pass2"
+                name="Repassword" placeholder="Password must be 8 character" maxlength="8"><br><br>
+            <button
+                style="padding: 5px; border-radius: 5px; width: 95%; background-color: rgb(222, 235, 35);margin-left: 4%;"
+                type="submit">Create</button><br>
+            <p style="margin-left: 4%;">By creating an account, you are agree to using <i
+                    style="color: rgb(25, 0, 255);">Experiment
+                    tv's </i> <a
+                    href="https://www.youtube.com/static?template=terms#:~:text=By%20providing%20Content%20to%20the,YouTube's%20(and%20its%20successors'%20and">Term's
+                    and Condition</a> </p><br>
+                <p style="margin-left: 4%;">Already have account? <a href="./login.html">Login</a></p>
+            </form>
+        
+    </div>
+
+</body>
+
+</html>
