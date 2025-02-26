@@ -72,9 +72,11 @@ def recommend_movies_optimized(description, df, model, top_n=12):
     return top_movies
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def sign():
-    return render_template('sign-in.html')
+    if request.method =='POST':
+        return render_template('sign-in.html')
+    return render_template('home.html')
 
 
 @app.route('/signup', methods =['GET','POST'])
