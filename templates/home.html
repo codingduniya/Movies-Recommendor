@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            position: relative;
+        }
+        .dynamic-text {
+            font-size: 2em;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid white;
+            display: inline-block;
+            animation: typing-erasing 8s steps(30, end) infinite;
+            animation-delay: 0s, 4s;
+        }
+        .image-container {
+            width: 80%;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            animation: fadeImage 8s infinite;
+            margin-left: 10%;
+
+        }
+        .btn {
+            background: #ff6f00;
+            color: white;
+            padding: 12px 24px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #ff8f00;
+        }
+        
+        @keyframes typing-erasing {
+           0% { width: 0; }
+           50% { width: 100%; }
+           100% { width: 0; }
+}
+      
+        
+        @keyframes fadeImage {
+            0%, 100% { background-image: url('../static/images/imageforanim.jpg'); }
+            50% { background-image: url('../static/images/imageforanim2.jpg'); }
+        }
+        @media (max-width: 280px) {
+            .dynamic-text {
+                font-size: 1em;
+                margin-left: 10%;
+            }
+            .decsription{
+                margin-left: 20%;
+                font-size: 1.5em;
+
+            }
+            .image-container {
+                width:150px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+        @media only screen and (max-width: 780px) {
+            .dynamic-text {
+                font-size: 1.2em;
+            }
+            .image-container {
+                height: 150px;
+                width: 200px;
+                
+                margin-left: 25%;
+            }
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form method="POST">
+    <div class="container">
+        <h1 style="font-family: monospace;" class="dynamic-text"><b>Welcome to Movie Recommendation System</b></h1>
+        <h4 style="font-family: Times;" class="decsription">A movie recommendation system suggests films to users based on their preferences, watching history, and user interactions. 
+         Various techniques, including collaborative filtering, content-based filtering, and hybrid methods, 
+         are employed to enhance recommendation accuracy. This section explores existing methodologies, 
+         challenges, and advancements in the field of movie recommendation systems.</h4>
+        <div class="image-container"></div>
+        <br>
+        <button class="btn" type="submit">Get Started</button>
+    </div>
+    </form>
+</body>
+</html>
