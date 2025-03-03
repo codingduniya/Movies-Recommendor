@@ -1,4 +1,6 @@
-from flask import Flask, request,jsonify, render_template
+from flask import Flask, request,jsonify, render_template, make_response, redirect, url_for
+from dotenv import load_dotenv
+import os
 import requests
 from pymongo import MongoClient
 from gensim.utils import simple_preprocess
@@ -8,14 +10,16 @@ import pickle
 import pandas as pd
 import numpy as np
 from flask_bcrypt import Bcrypt
-import os
-from dotenv import load_dotenv
+import certifi
+from flask_mail import *
+
+
 
 
 
 # Load model and dataset
 model = pickle.load(open('model.pkl', 'rb'))
-df = pd.read_csv('cleaned.csv')
+df = pd.read_csv('folder_for_csv\cleaned.csv')
 
 # Convert vector column from string to NumPy arrays
 df['vector'] = df['vector'].apply(lambda x: np.fromstring(x[1:-1], sep=' '))
@@ -24,11 +28,19 @@ df['vector'] = df['vector'].apply(lambda x: np.fromstring(x[1:-1], sep=' '))
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
-client = MongoClient(os.getenv('MONGO_URI'),tls=True)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = os.getenv('FLASK_MAIL')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASS')
+
+mail = Mail(app)
+client = MongoClient(os.getenv('MONGO_URI'),tlsCAFile=certifi.where())
 db = client['MovieDB']
 movies_collection = db['Movies']
 #connecting the cloud server
-client2 = MongoClient(os.getenv('MONGO_URI'),tls=True)
+client2 = MongoClient(os.getenv('MONGO_URI'),tlsCAFile=certifi.where())
 db2 = client2['UserDatabase']
 collection = db2['Users']
 
@@ -74,9 +86,14 @@ def recommend_movies_optimized(description, df, model, top_n=12):
 
 @app.route('/', methods=['GET','POST'])
 def sign():
-    if request.method =='POST':
+    user_data = request.cookies.get("mail")
+    if request.method =='POST' :
         return render_template('sign-in.html')
-    return render_template('home.html')
+    elif user_data:
+        
+        return render_template('index.html',message1="Welcome to you again "+(request.cookies.get("name")))
+    else:
+        return render_template('home.html')
 
 
 @app.route('/signup', methods =['GET','POST'])
@@ -90,13 +107,27 @@ def index():
 
         userexist = collection.find_one({"email":email})
         if userexist:
-            message = "Email already registered..!"
-            return render_template('sign-in.html', message=message)
+            message1 = "Email already registered..!"
+            return render_template('sign-in.html', message1=message1)
         else:
             hashed_pass = bcrypt.generate_password_hash(password).decode('utf-8')
             collection.insert_one({"name":name, "mobile number":mobnumber, "email":email, "password": hashed_pass})
             message1="Signed in successfully"
-    return render_template('index.html',message=message1)
+            response = make_response(render_template('index.html',message1=message1))
+            response.set_cookie("name",name,max_age=60*60*24*30, path="/")
+            response.set_cookie("mail", email, max_age=60*60*24*30, path = "/")
+            msg = Message("Welcome To MooovieRec" , sender="mooovierecnoreply@gmail.com", recipients=[email])
+            msg.body = "Hello "+ name + " thank you for registering in the MooovieRec\nThank you for using this website. \nYour password is "+password+" \nplease do not share the password with any one"
+            mail.send(msg)
+            return response
+
+@app.route('/Logout', methods=['GET'])
+def logout():
+    response = make_response(redirect(url_for('sign')))
+    response.delete_cookie("name", path='/')
+    response.delete_cookie("mail", path='/')
+    return response
+
 
 @app.route('/login.html', methods=['GET','POST'])
 def login():
@@ -108,8 +139,10 @@ def login():
         checkmail = collection.find_one({"email":logmail})
         
         if checkmail and bcrypt.check_password_hash(checkmail.get("password"),logpass):
-            message ="Logged in successfully"
-            return render_template('index.html',message=message)
+            message1 ="Logged in successfully :)"
+            return render_template('index.html',message1=message1)
+        else:
+            return render_template('login.html', message1 = "Incorrect Username Or Password !!")
     return render_template('login.html')
 
 @app.route('/index.html')
@@ -127,7 +160,20 @@ def suggest():
 def recommend():
     desc = request.args.get('query', '')
     top_movies = recommend_movies_optimized(desc, df, model)
-    return jsonify(top_movies.to_dict(orient='records'))  
+    return jsonify(top_movies.to_dict(orient='records')) 
+
+@app.after_request
+def add_no_cache_headers(response):
+    if request.endpoint in ['index', 'dashboard', 'profile']:  # Protect specific pages
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+    return response
+
+@app.route('/terms.html', methods=['GET'])
+def terms():
+    return render_template('terms.html')
+
 
 if __name__ == "__main__":
-    app.run(debug=True, port = process.env.PORT)
+    app.run(debug=True, port=3000)
