@@ -19,7 +19,7 @@ from flask_mail import *
 
 # Load model and dataset
 model = pickle.load(open('model.pkl', 'rb'))
-df = pd.read_csv('folder_for_csv\cleaned.csv')
+df = pd.read_csv('cleaned.csv')
 
 # Convert vector column from string to NumPy arrays
 df['vector'] = df['vector'].apply(lambda x: np.fromstring(x[1:-1], sep=' '))
