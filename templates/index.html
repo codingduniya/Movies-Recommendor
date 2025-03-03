@@ -5,10 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Movie Recommendor</title>
-
  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <link rel="icon" type="image/x-icon" href="static/images/video-camera.png"
@@ -16,19 +14,41 @@
   <style>
     .movie-poster {
       width: 100%;
-      
       height: 180px;
-   
-      object-fit: cover;
-    
+     
+      object-fit: 140px 130px;
       border-radius: 10px;
-      
+    }
+
+    .movie-card {
+      background: linear-gradient(to right,  #0f67b4, #04bfee);
+      border-radius: 10px;
+      padding: 8px;
+      text-align: center;
+      color: white;
+      height: 280px; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .no-poster {
+      width: 100%;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-weight: bold;
+      border-radius: 10px;
     }
 
     .navbar-toggler {
-    border: 2px solid white;
-    border-radius: 5px; 
-}
+      border: 2px solid white;
+      border-radius: 5px; 
+    }
 
     .search-container {
       position: relative;
@@ -66,7 +86,6 @@
       margin-top: 20px;
     }
     .navbarimg{
-      
       background-repeat: no-repeat;
       width: 80px;
       height: 50px;
@@ -74,16 +93,21 @@
       box-shadow: 5px 5px darkslateblue;
     }
 
+    .cardmm{
+      background: linear-gradient(to right #ff9966, #ff5e62);
+    }
+
     body {
       background-image: url("static/images/background2img.jpg");
-      /* Ensure this path is correct */
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-size: cover;
       background-position: center;
-    }
-  
+      
+      overflow-x: hidden;
 
+
+    }
   </style>
   <script>
     async function fetchSuggestions(query) {
@@ -91,7 +115,6 @@
       const movies = await response.json();
       const suggestionsDiv = document.getElementById('suggestions');
       suggestionsDiv.innerHTML = '';
-      // Clear previous suggestions
 
       movies.forEach(movie => {
         const suggestionItem = document.createElement('div');
@@ -99,7 +122,7 @@
         suggestionItem.classList.add('suggestion-item');
         suggestionItem.onclick = () => {
           document.getElementById('searchQuery').value = movie;
-          suggestionsDiv.innerHTML = ''; // Clear suggestions after selection
+          suggestionsDiv.innerHTML = ''; 
         };
         suggestionsDiv.appendChild(suggestionItem);
       });
@@ -115,7 +138,6 @@
         suggestionsDiv.style.display = 'none';
       }
     }
-
   </script>
   <script>
     async function fetchRecommendations(event) {
@@ -123,6 +145,9 @@
       const query = document.getElementById('searchQuery').value;
       const loadingSpinner = document.getElementById('loading-spinner');
       const recommendationsDiv = document.getElementById('recommendations');
+      const suggestionsDiv = document.getElementById('suggestions');
+      suggestionsDiv.innerHTML = ''; // Hide suggestions on recommend
+
       if (!query) {
         alert('Please enter a movie name!');
         return;
@@ -143,21 +168,15 @@
         }
 
         data.forEach(movie => {
-          // Create a Bootstrap card
           const movieCard = document.createElement('div');
           movieCard.classList.add('col-md-3', 'mb-3', 'mt-3');
           movieCard.innerHTML = `
-          <div class="card bg-dark text-white shadow-lg border-5">
-            <div class="card-body text-center">
-              <img src="${movie.poster}" class="movie-poster align-center" alt="movie_image">
-              <h5 class="card-title" style="text-transform : capitalize; color: white"><b>${movie.title}</b></h5>
+         <div class="movie-card">
+              ${movie.poster ? `<img src="${movie.poster}" class="movie-poster" alt="movie_image">` : '<div class="no-poster">No Poster Available</div>'}
+              <h5 class="card-title text-white mt-2"><b>${movie.title}</b></h5>
             </div>
-         </div>
-        `;
-
+          `;
           recommendationsDiv.appendChild(movieCard);
-
-
         });
       } catch (error) {
         loadingSpinner.style.display = 'none';
@@ -165,92 +184,40 @@
       }
     }
   </script>
-
-
 </head>
 
 <body>
-
-  <!-- Collapsible Content -->
-  <div class="collapse" id="navbarToggleExternalContent">
-    <div class="bg-dark p-4">
-      <h5 class="text-light">Collapsed content</h5>
-      <span class="text-light">Toggleable via the navbar brand.</span>
-    </div>
-  </div>
-
-  <!-- Main Navbar -->
   <nav class="navbar navbar-expand-lg " style="background-color: #041f9bf3; ">
     <div class="container-fluid ">
-      <img class="navbarimg" src="static\images\Moovierec.webp" alt="Moovierec">
-      <!-- Left-Side Toggler for Extra Content -->
-      <button class="navbar-toggler  " type="button" data-bs-toggle="collapse"
-        data-bs-target="#navbarNavDropdown" aria-controls="#navbarNavDropdown" aria-expanded="false"
-        aria-label="Toggle navigation">
+      <img class="navbarimg" src="static/images/Moovierec.webp" alt="Moovierec">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
         <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
       </button>
-
-
-
-      <!-- Navbar Links -->
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="./features.html">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="./price.html">Pricing</a>
-          </li>
+          <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="./features.html">Features</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="./price.html">Pricing</a></li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              Dropdown
-            </a>
+            <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown">Dropdown</a>
             <ul class="dropdown-menu">
-              
               <li><a class="dropdown-item" href="./Logout">Logout</a></li>
-              
             </ul>
           </li>
         </ul>
-
-        <!-- Search Bar -->
-        <form class="d-flex" role="search" onsubmit="fetchRecommendations(event)" action="/recommend">
-          <input id="searchQuery" class="form-control me-2" type="search" placeholder="Search any movie.."
-            aria-label="Search" oninput="onSearchBoxInput()">
+        <form class="d-flex" role="search" onsubmit="fetchRecommendations(event)">
+          <input id="searchQuery" class="form-control me-2" type="search" placeholder="Search any movie.." oninput="onSearchBoxInput()">
           <div id="suggestions" class="suggestions-container"></div>
           <button class="btn btn-outline-success" style="color: white;" type="submit">Recommend</button>
-
         </form>
-        <!-- This will display recommended movies -->
-        
-
       </div>
     </div>
-
   </nav>
-
   <div class="loading-spinner" id="loading-spinner">
     <div class="spinner-grow text-primary" role="status"></div>
     <div class="spinner-grow text-secondary" role="status"></div>
     <div class="spinner-grow text-success" role="status"></div>
   </div>
   <div class="recommendations row" id="recommendations"></div>
-    
-
-  <!-- Bootstrap Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-<script>
-  var message = "{{message1}}";
-  if (message){
-    alert(message)
-  }
-</script>
 </body>
-
 </html>
