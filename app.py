@@ -173,7 +173,14 @@ def add_no_cache_headers(response):
 @app.route('/terms.html', methods=['GET'])
 def terms():
     return render_template('terms.html')
+    
+@app.route('/features.html', methods=['GET'])
+def features():
+    return render_template('features.html')
 
+@app.route('/price.html', methods=['GET'])
+def price():
+    return render_template('price.html')
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000)
