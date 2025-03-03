@@ -162,13 +162,6 @@ def recommend():
     top_movies = recommend_movies_optimized(desc, df, model)
     return jsonify(top_movies.to_dict(orient='records')) 
 
-@app.after_request
-def add_no_cache_headers(response):
-    if request.endpoint in ['index', 'dashboard', 'profile']:  # Protect specific pages
-        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
-        response.headers["Pragma"] = "no-cache"
-        response.headers["Expires"] = "0"
-    return response
 
 @app.route('/terms.html', methods=['GET'])
 def terms():
