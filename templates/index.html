@@ -12,26 +12,35 @@
   <link rel="icon" type="image/x-icon" href="static/images/video-camera.png"
     title="https://www.flaticon.com/free-icons/video-camera Video camera icons created by smashingstocks - Flaticon">
   <style>
-    .movie-poster {
-      width: 100%;
-      height: 180px;
-     
-      object-fit: 140px 130px;
-      border-radius: 10px;
-    }
-
+    
     .movie-card {
-      background: linear-gradient(to right,  #0f67b4, #04bfee);
-      border-radius: 10px;
-      padding: 8px;
-      text-align: center;
-      color: white;
-      height: 280px; 
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  border-radius: 15px;
+  padding: 0px;
+  text-align: center;
+  color: white;
+  height: 300px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 10px 20px rgba(255, 83, 83, 0.2);
+}
+
+.movie-poster {
+  width: 350px;
+  height: 200px;
+  object-fit: auto;
+  border-radius: 12px;
+}
+
+
 
     .no-poster {
       width: 100%;
@@ -102,11 +111,39 @@
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-size: cover;
+      width: 100%;
       background-position: center;
-      
       overflow-x: hidden;
-
-
+      position: relative;
+      image-rendering: auto; 
+      transform: translateZ(0);
+      filter: brightness(100%);
+      filter: contrast(100%);
+      
+      
+    
+    }
+    
+    body.blur::before {
+      content: "";
+      position: fixed;
+      
+      width: 100vw;
+      height: 100vw;
+      background-image: inherit;
+      filter: blur(8px);
+      z-index: -1;
+      
+    }
+    .recommendations {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    align-items: flex-start; 
+    padding: 25px;
+    text-align: center;
+    padding-left: 6%;
+      
     }
   </style>
   <script>
@@ -168,8 +205,9 @@
         }
 
         data.forEach(movie => {
+          document.body.classList.add('blur');
           const movieCard = document.createElement('div');
-          movieCard.classList.add('col-md-3', 'mb-3', 'mt-3');
+          movieCard.classList.add('col-md-4', 'mb-4', 'mt-2');
           movieCard.innerHTML = `
          <div class="movie-card">
               ${movie.poster ? `<img src="${movie.poster}" class="movie-poster" alt="movie_image">` : '<div class="no-poster">No Poster Available</div>'}
