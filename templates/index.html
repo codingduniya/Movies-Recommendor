@@ -145,6 +145,64 @@
     padding-left: 6%;
       
     }
+  
+    @media screen and (max-width:768px) {
+      .recommendations {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    align-items: flex-start; 
+    padding: 25px;
+    text-align: center;
+    padding-left: 5%;
+    overflow-x: hidden;
+      
+    }
+    body.blur::before {
+      content: "";
+      position: fixed;
+      
+      width: 100%;
+      
+      
+      filter: blur(0px);
+      z-index: -1;
+      overflow-x: hidden;
+    }
+     .movie-card {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  border-radius: 15px;
+  padding: 0px;
+  text-align: center;
+  color: white;
+  height: 300px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+      
+    }
+    .navbar {
+  width: 100% !important;
+  
+}
+.container {
+  width: 100vw !important;
+}
+.navbar-collapse {
+  width: 100% !important;
+}
+
+html, body {
+  overflow-x: hidden !important;
+}
+
+
+
+
   </style>
   <script>
     async function fetchSuggestions(query) {
@@ -226,7 +284,7 @@
 
 <body>
   <nav class="navbar navbar-expand-lg " style="background-color: #041f9bf3; ">
-    <div class="container-fluid ">
+    <div class="container-fluid">
       <img class="navbarimg" src="static/images/Moovierec.webp" alt="Moovierec">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
         <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
