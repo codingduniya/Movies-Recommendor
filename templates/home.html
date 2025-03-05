@@ -59,6 +59,36 @@
             transform: scale(1.05);
             box-shadow: 0px 10px 20px rgba(255, 83, 83, 0.2);
         }
+        @media screen and (max-width:760px){
+            @keyframes typing-erasing {
+           0% { width: 0; color: rgb(208, 255, 0);}
+           50% { width: 100%; color: rgb(243, 238, 240);}
+           100% { width: 0; color:rgb(243, 114, 8)}
+        }
+        
+        .titileel {
+        font-size: 1.2em;
+        animation: typing-erasing 8s steps(20, end) infinite;
+        
+       
+          
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid white;
+            display: inline-block;
+            
+            animation-delay: 0s, 0s;
+        
+    } 
+        
+    
+   
+
+    
+        
+        }
+       
+        
     </style>
 </head>
 
@@ -74,7 +104,7 @@
     </header>
     <main class="text-center p-6 ">
         <h1 class="text-4xl md:text-5xl font-bold titileel">
-            Welcome to Movie Recommendation System 
+            Welcome to MooovieRec 
         </h1>
         <h2 class="text-2xl md:text-3xl text-pink-400 mt-2 poptext1">
             Just for You
